@@ -6,7 +6,7 @@ return [
             'email'                  => 'Dirección de Correo Electrónico',
             'forget-password-link'   => '¿Olvidaste tu Contraseña?',
             'password'               => 'Contraseña',
-            'powered-by-description' => 'Desarrollado por :bagisto, un proyecto de código abierto de :webkul.',
+            'powered-by-description' => '© 2025 SkyMed Venezuela - Todos los derechos reservados.',
             'submit-btn'             => 'Iniciar Sesión',
             'title'                  => 'Iniciar Sesión',
         ],
@@ -16,7 +16,7 @@ return [
                 'email'                  => 'Correo Electrónico Registrado',
                 'email-not-exist'        => 'El Correo Electrónico no Existe',
                 'page-title'             => 'Olvidar Contraseña',
-                'powered-by-description' => 'Desarrollado por :bagisto, un proyecto de código abierto de :webkul.',
+                'powered-by-description' => '© 2025 SkyMed Venezuela - Todos los derechos reservados.',
                 'reset-link-sent'        => 'Enlace para Restablecer la Contraseña Enviado',
                 'sign-in-link'           => '¿Volver a Iniciar Sesión?',
                 'submit-btn'             => 'Restablecer',
@@ -29,7 +29,7 @@ return [
             'confirm-password'       => 'Confirmar Contraseña',
             'email'                  => 'Correo Electrónico Registrado',
             'password'               => 'Contraseña',
-            'powered-by-description' => 'Desarrollado por :bagisto, un proyecto de código abierto de :webkul.',
+            'powered-by-description' => '© 2025 SkyMed Venezuela - Todos los derechos reservados.',
             'submit-btn'             => 'Restablecer Contraseña',
             'title'                  => 'Restablecer Contraseña',
         ],
@@ -4709,7 +4709,7 @@ return [
             ],
 
             'powered-by' => [
-                'description' => 'Desarrollado por :bagisto, un proyecto de código abierto de :webkul.',
+                'description' => '© 2025 SkyMed Venezuela - Todos los derechos reservados.',
             ],
         ],
 
@@ -5019,7 +5019,7 @@ return [
     ],
 
     'footer' => [
-        'copy-right' => 'Desarrollado por <a href="https://bagisto.com/" target="_blank">Bagisto</a>, Un Proyecto Comunitario por <a href="https://webkul.com/" target="_blank">Webkul</a>',
+        'copy-right' => 'Desarrollado por <a href="https://skymedstore.com/" target="_blank">SkyMed</a> Venezuela - Todos los derechos reservados.',  
     ],
 
     'emails' => [
