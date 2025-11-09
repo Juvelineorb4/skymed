@@ -21,17 +21,9 @@
 
             {!! view_render_event('bagisto.shop.components.layouts.header.mobile.logo.before') !!}
 
-            <a
-                href="{{ route('shop.home.index') }}"
-                class="max-h-[30px]"
-                aria-label="@lang('shop::app.components.layouts.header.mobile.bagisto')"
-            >
-                <img
-                    src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
-                    alt="{{ config('app.name') }}"
-                    width="131"
-                    height="29"
-                >
+            <a href="{{ route('shop.home.index') }}" class="max-h-[30px]" aria-label="@lang('shop::app.components.layouts.header.mobile.bagisto')">
+                <img src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
+                    alt="{{ config('app.name') }}" width="131" height="29">
             </a>
 
             {!! view_render_event('bagisto.shop.components.layouts.header.mobile.logo.after') !!}
@@ -42,11 +34,8 @@
             <div class="flex items-center gap-x-5 max-md:gap-x-4">
                 {!! view_render_event('bagisto.shop.components.layouts.header.mobile.compare.before') !!}
 
-                @if($showCompare)
-                    <a
-                        href="{{ route('shop.compare.index') }}"
-                        aria-label="@lang('shop::app.components.layouts.header.mobile.compare')"
-                    >
+                @if ($showCompare)
+                    <a href="{{ route('shop.compare.index') }}" aria-label="@lang('shop::app.components.layouts.header.mobile.compare')">
                         <span class="icon-compare cursor-pointer text-2xl"></span>
                     </a>
                 @endif
@@ -55,13 +44,127 @@
 
                 {!! view_render_event('bagisto.shop.components.layouts.header.mobile.mini_cart.before') !!}
 
-                @if(core()->getConfigData('sales.checkout.shopping_cart.cart_page'))
+                @if (core()->getConfigData('sales.checkout.shopping_cart.cart_page'))
                     @include('shop::checkout.cart.mini-cart')
                 @endif
 
                 {!! view_render_event('bagisto.shop.components.layouts.header.mobile.mini_cart.after') !!}
 
-    
+                <!-- For Large screens -->
+                <div class="max-md:hidden">
+                    <x-shop::dropdown
+                        position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
+                        <x-slot:toggle>
+                            <span class="icon-users cursor-pointer text-2xl"></span>
+                        </x-slot>
+
+                        <!-- Guest Dropdown -->
+                        @guest('customer')
+                            <x-slot:content>
+                                <div class="grid gap-2.5">
+                                    <p class="font-dmserif text-xl">
+                                        @lang('shop::app.components.layouts.header.mobile.welcome-guest')
+                                    </p>
+
+                                    <p class="text-sm">
+                                        @lang('shop::app.components.layouts.header.mobile.dropdown-text')
+                                    </p>
+                                </div>
+
+                                <p class="mt-3 w-full border border-zinc-200"></p>
+
+                                {!! view_render_event('bagisto.shop.components.layouts.header.mobile.index.customers_action.before') !!}
+
+                                <div class="mt-6 flex gap-4">
+                                    {!! view_render_event('bagisto.shop.components.layouts.header.mobile.index.sign_in_button.before') !!}
+
+                                    <a href="{{ route('shop.customer.session.create') }}"
+                                        class="m-0 mx-auto block w-max cursor-pointer rounded-2xl bg-navyBlue px-7 py-4 text-center text-base font-medium text-white ltr:ml-0 rtl:mr-0">
+                                        @lang('shop::app.components.layouts.header.mobile.sign-in')
+                                    </a>
+
+                                    <a href="{{ route('shop.customers.register.index') }}"
+                                        class="m-0 mx-auto block w-max cursor-pointer rounded-2xl border-2 border-navyBlue bg-white px-7 py-3.5 text-center text-base font-medium text-navyBlue ltr:ml-0 rtl:mr-0">
+                                        @lang('shop::app.components.layouts.header.mobile.sign-up')
+                                    </a>
+
+                                    {!! view_render_event('bagisto.shop.components.layouts.header.mobile.index.sign_in_button.after') !!}
+                                </div>
+
+                                {!! view_render_event('bagisto.shop.components.layouts.header.mobile.index.customers_action.after') !!}
+                            </x-slot>
+                        @endguest
+
+                        <!-- Customers Dropdown -->
+                        @auth('customer')
+                            <x-slot:content class="!p-0">
+                                <div class="grid gap-2.5 p-5 pb-0">
+                                    <p class="font-dmserif text-xl">
+                                        @lang('shop::app.components.layouts.header.mobile.welcome')’
+                                        {{ auth()->guard('customer')->user()->first_name }}
+                                    </p>
+
+                                    <p class="text-sm">
+                                        @lang('shop::app.components.layouts.header.mobile.dropdown-text')
+                                    </p>
+                                </div>
+
+                                <p class="mt-3 w-full border border-zinc-200"></p>
+
+                                <div class="mt-2.5 grid gap-1 pb-2.5">
+                                    {!! view_render_event('bagisto.shop.components.layouts.header.mobile.index.profile_dropdown.links.before') !!}
+
+                                    <a class="cursor-pointer px-5 py-2 text-base"
+                                        href="{{ route('shop.customers.account.profile.index') }}">
+                                        @lang('shop::app.components.layouts.header.mobile.profile')
+                                    </a>
+
+                                    <a class="cursor-pointer px-5 py-2 text-base"
+                                        href="{{ route('shop.customers.account.orders.index') }}">
+                                        @lang('shop::app.components.layouts.header.mobile.orders')
+                                    </a>
+
+                                    @if ($showWishlist)
+                                        <a class="cursor-pointer px-5 py-2 text-base"
+                                            href="{{ route('shop.customers.account.wishlist.index') }}">
+                                            @lang('shop::app.components.layouts.header.mobile.wishlist')
+                                        </a>
+                                    @endif
+
+                                    <!--Customers logout-->
+                                    @auth('customer')
+                                        <x-shop::form method="DELETE" action="{{ route('shop.customer.session.destroy') }}"
+                                            id="customerLogout" />
+
+                                        <a class="cursor-pointer px-5 py-2 text-base"
+                                            href="{{ route('shop.customer.session.destroy') }}"
+                                            onclick="event.preventDefault(); document.getElementById('customerLogout').submit();">
+                                            @lang('shop::app.components.layouts.header.mobile.logout')
+                                        </a>
+                                    @endauth
+
+                                    {!! view_render_event('bagisto.shop.components.layouts.header.mobile.index.profile_dropdown.links.after') !!}
+                                </div>
+                            </x-slot>
+                        @endauth
+                    </x-shop::dropdown>
+                </div>
+
+                <!-- For Medium and small screen -->
+                <div class="md:hidden">
+                    @guest('customer')
+                        <a href="{{ route('shop.customer.session.create') }}" aria-label="@lang('shop::app.components.layouts.header.mobile.account')">
+                            <span class="icon-users cursor-pointer text-2xl"></span>
+                        </a>
+                    @endguest
+
+                    <!-- Customers Dropdown -->
+                    @auth('customer')
+                        <a href="{{ route('shop.customers.account.index') }}" aria-label="@lang('shop::app.components.layouts.header.mobile.account')">
+                            <span class="icon-users cursor-pointer text-2xl"></span>
+                        </a>
+                    @endauth
+                </div>
             </div>
         </div>
     </div>
@@ -70,24 +173,18 @@
 
     <!-- Serach Catalog Form -->
     <form action="{{ route('shop.search.index') }}" class="flex w-full items-center">
-        <label
-            for="organic-search"
-            class="sr-only"
-        >
+        <label for="organic-search" class="sr-only">
             @lang('shop::app.components.layouts.header.mobile.search')
         </label>
 
         <div class="relative w-full">
-            <div class="icon-search pointer-events-none absolute top-3 flex items-center text-2xl max-md:text-xl max-sm:top-2.5 ltr:left-3 rtl:right-3"></div>
+            <div
+                class="icon-search pointer-events-none absolute top-3 flex items-center text-2xl max-md:text-xl max-sm:top-2.5 ltr:left-3 rtl:right-3">
+            </div>
 
-            <input
-                type="text"
+            <input type="text"
                 class="block w-full rounded-xl border border-['#E3E3E3'] px-11 py-3.5 text-sm font-medium text-gray-900 max-md:rounded-lg max-md:px-10 max-md:py-3 max-md:font-normal max-sm:text-xs"
-                name="query"
-                value="{{ request('query') }}"
-                placeholder="@lang('shop::app.components.layouts.header.mobile.search-text')"
-                required
-            >
+                name="query" value="{{ request('query') }}" placeholder="@lang('shop::app.components.layouts.header.mobile.search-text')" required>
 
             @if (core()->getConfigData('catalog.products.settings.image_search'))
                 @include('shop::search.images.index')
@@ -122,7 +219,14 @@
                 </div>
             </x-slot>
 
-         <!-- Se elimino lo de profile -->
+            <x-slot:content class="!p-0">
+                {!! view_render_event('bagisto.shop.components.layouts.header.mobile.drawer.categories.before') !!}
+
+                <!-- Mobile category view -->
+                <v-mobile-category ref="mobileCategory"></v-mobile-category>
+
+                {!! view_render_event('bagisto.shop.components.layouts.header.mobile.drawer.categories.after') !!}
+            </x-slot>
 
             <x-slot:footer>
                 <!-- Localization & Currency Section -->
@@ -313,7 +417,7 @@
             template: '#v-mobile-category-template',
 
             data() {
-                return  {
+                return {
                     categories: [],
                     currentViewLevel: 'main',
                     currentSecondLevelCategory: null,
