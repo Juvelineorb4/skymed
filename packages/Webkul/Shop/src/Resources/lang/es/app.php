@@ -1012,7 +1012,7 @@ return [
                 'check-billing-address'  => 'Falta la dirección de facturación.',
                 'check-shipping-address' => 'Falta la dirección de envío.',
                 'city'                   => 'Ciudad',
-                'company-name'           => 'Nombre de la empresa',
+                'company-name'           => 'Nombre de la empresa (OPCIONAL)',
                 'confirm'                => 'Confirmar',
                 'country'                => 'País',
                 'email'                  => 'Correo electrónico',
